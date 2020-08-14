@@ -5,7 +5,7 @@ var resetTimer = function() {
   updateTimerText(10,0);
 }
 
-// count down to 0
+// null --> null
 var countdown = function() {
   var seconds = 0;
   var milliseconds = 0;
@@ -33,6 +33,7 @@ var countdown = function() {
   }, 10);
 };
 
+// int, int --> null
 var updateTimerText = function(secs, ms) {
   var updatedSecs;
   var updatedMs;
@@ -53,8 +54,23 @@ var updateTimerText = function(secs, ms) {
   $('.milliseconds').html(updatedMs);
 }
 
+// ----------- math problem functionality -------------
 
+// int --> int
+var randomInt = function(max) {
+  return _.sample(_.range(max));
+}
 
+// int, int, str --> null
+var updateProblemText = function(x, y, operator) {
+  $('.x-side').html(x);
+  $('.y-side').html(y);
+  $('.operator').html(operator);
+}
+
+//  --------- trigger upon DOM loading ----------------
 $(document).ready(function() {
-  countdown();
+  // countdown();
+  // console.log(newProblem());
+  updateProblemText(randomInt(100), randomInt(100), '+');
 });
