@@ -5,11 +5,11 @@ var resetTimer = function() {
   updateTimerText(10,0);
 }
 
-// null --> null
-var countdown = function() {
+// int --> null
+function Countdown(maxTime) {
+  this.maxTime = maxTime;
   var seconds = 0;
   var milliseconds = 0;
-  var maxTime = 10000
   var start = new Date(0);
 
   var timerLoop = function() {
@@ -56,9 +56,14 @@ var updateTimerText = function(secs, ms) {
 
 // ----------- math problem functionality -------------
 
-// int --> int
-var randomInt = function(max) {
-  return _.sample(_.range(max));
+// max = top range, exclusive
+// int --> array [int, int]
+var generateProb = function(max) {
+  var problem = [_.sample(_.range(1, max)), _.sample(_.range(1, max))];
+
+  problem = (problem[0] < problem[1]) ? [problem[1], problem[0]] : [problem[0], problem[1]]
+
+  return problem;
 }
 
 // int, int, str --> null
@@ -68,9 +73,40 @@ var updateProblemText = function(x, y, operator) {
   $('.operator').html(operator);
 }
 
+// int, int, str --> int
+var probSolution = function(x, y, operator) {
+  var solution;
+
+  switch (operator) {
+    case '+':
+      solution = x + y;
+      break;
+    case '-':
+      solution = x - y;
+      break;
+    case '*':
+      solution = x * y;
+      break;
+    case '/':
+      solution = x / y;
+      break;
+  }
+
+  return solution;
+}
+
+// ------------ Main Game Loop ------------------------
+
+// input.val()
+// mathProblem solution = ?
+// event listener for enter key
+// value === answer? next problem && plus 1000ms : try again
+
+
 //  --------- trigger upon DOM loading ----------------
 $(document).ready(function() {
-  // countdown();
+  // var timer = new Countdown(10000);
   // console.log(newProblem());
-  updateProblemText(randomInt(100), randomInt(100), '+');
+  // updateProblemText(randomInt(100), randomInt(100), '+');
+  // console.log(probSolution(10,5,'*'));
 });
