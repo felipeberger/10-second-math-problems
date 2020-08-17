@@ -30,10 +30,14 @@
         <h1 class="timer-display"><span class="seconds">00</span>:<span class="milliseconds">00</span></h1>
       </div>
       <div class="game-field">
-          <h3><span class="x-side"></span> <span class="operator" ></span> <span class="y-side"></span></h3>
-          <input type="text" name="answer" value="" placeholder="Answer">
-          <button type="button" name="start">Go!</button>
+        <h3><span class="x-side"></span> <span class="operator" ></span> <span class="y-side"></span></h3>
+        <input type="number" name="answer" value="" placeholder="Press &#8629 to submit">
+        <button class="d-block mt-3" type="button" name="start">Start</button>
       </div>
+      <div class="score pt-3">
+        <h4>Score: <span class="score-display"></span></h4>
+      </div>
+      <button type="button" name="new-game">New Game</button>
     </div>
   </body>
 </html>

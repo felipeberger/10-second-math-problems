@@ -1,11 +1,5 @@
 // ---------------- timer functionality ----------------
 
-// reset timer to 10 seconds
-var resetGame = function() {
-  updateTimerText(10,0);
-  updateProblemText(0, 0, '+');
-}
-
 // countdown timer constructor
 // int --> null
 function Countdown() {
@@ -13,46 +7,65 @@ function Countdown() {
   var seconds = 0;
   var milliseconds = 0;
   var start = new Date(0);
+  var end;
   var running = false;
+  var score = 0;
+  var interval;
 
   this.toggleOn = function() {
-    running = true;
-    timerLoop();
+    if (running === false) {
+      running = true;
+      this.startTimer();
+    }
+  }
+
+  this.reset = function() {
+    clearInterval(interval);
+    maxTime = 10000;
+    seconds = 0;
+    milliseconds = 0;
+    running = false;
+    score = 0;
+    this.printScore();
+    updateTimerText(10, 00);
+  }
+
+  this.increaseScore = function() {
+    score += 1;
+  }
+
+  this.printScore = function() {
+    $('.score-display').html(score);
   }
 
   this.addSecond = function() {
     maxTime += 1000;
-  }
-
-  this.reset = function() {
-    running = false;
-  }
-
-  this.logTime = function() {
-    console.log(maxTime);
+    this.increaseScore();
+    this.printScore();
   }
 
   var timerLoop = function() {
     if (running = true) {
-      var end = new Date(maxTime);
+      end = new Date(maxTime);
 
       seconds = Math.floor((end-start) / 1000);
       milliseconds = Math.floor(((end-start) % 1000) / 10);
-      // console.log(seconds + "." + milliseconds);
       maxTime -= 10;
     }
   }
 
-  var interval = setInterval(function() {
-    if (maxTime > 0 && running === true) {
-      updateTimerText(seconds, milliseconds);
-      timerLoop();
-    } else {
-      updateTimerText(0, 0);
-      console.log('times up!');
-      clearInterval(interval);
-    }
-  }, 10);
+  this.startTimer = function() {
+    interval = setInterval(function() {
+      if (maxTime > 0 && running === true) {
+        updateTimerText(seconds, milliseconds);
+        timerLoop();
+      } else {
+        updateTimerText(0, 0);
+        console.log('times up!');
+        clearInterval(interval);
+      }
+    }, 10);
+  }
 };
 
 // ----------- math problem functionality -------------
@@ -152,6 +165,7 @@ var gameLoop = function (answer) {
   if (answer) {
     Problem = new MathProblem('+', 10);
     Problem.printProblem();
+    Timer.addSecond();
     $('input').val('');
   } else {
     $('input').val('');
@@ -160,15 +174,24 @@ var gameLoop = function (answer) {
 
 // ---------------- event handlers --------------------
 
+// submits answer if enter, otherwise starts the game
 $(document).on('keypress', 'input', function() {
   if (event.which === 13) {
     var temp = Problem.checkAnswer();
     gameLoop(temp);
+  } else {
+    Timer.toggleOn();
   }
 });
 
-$(document).on('click', 'button', function() {
-  gameLoop(Problem.checkAnswer());
+// Starts timer
+$(document).on('click', 'button[name="start"]', function() {
+  Timer.toggleOn();
+});
+
+// Resets game
+$(document).on('click', 'button[name="new-game"]', function() {
+  Timer.reset();
 });
 
 // ------- initialize constructors --------------------
@@ -180,6 +203,7 @@ var Problem = new MathProblem('+', 10);
 //  --------- trigger upon DOM loading ----------------
 
 $(document).ready(function() {
-  Timer.toggleOn();
+  Timer.printScore();
   Problem.printProblem();
+  updateTimerText(10, 00);
 });
