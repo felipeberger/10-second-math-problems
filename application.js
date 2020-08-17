@@ -55,8 +55,6 @@ function Countdown() {
   }, 10);
 };
 
-var timer = new Countdown();
-
 // ----------- math problem functionality -------------
 
 // max = top range, exclusive
@@ -94,21 +92,25 @@ var probSolution = function(x, y, operator, response) {
   return correct;
 }
 
+var getInput = function() {
+  var temp = parseInt($('input').val());
+  return temp;
+}
+
 // Math problem constructor
-// str --> bool
+// str, int
 function MathProblem(operator, max) {
   var problem = generateProb(max);
   var operator = operator;
   var solution;
 
-  this.printLog = function() {
-    console.log(problem);
+  this.printProblem = function() {
+    updateProblemText(problem, operator);
   }
 
-  updateProblemText(problem, operator);
-
-  this.checkAnswer = function(response) {
-    solution = probSolution(problem[0], problem[1], operator, response)
+  // null --> bool
+  this.checkAnswer = function() {
+    solution = probSolution(problem[0], problem[1], operator, getInput());
     return solution;
   }
 };
@@ -143,53 +145,41 @@ var updateProblemText = function(arr, operator) {
   $('.operator').html(operator);
 }
 
+// ------------ Game Loop ------------------------
+
+// bool --> null
+var gameLoop = function (answer) {
+  if (answer) {
+    Problem = new MathProblem('+', 10);
+    Problem.printProblem();
+    $('input').val('');
+  } else {
+    $('input').val('');
+  }
+}
+
 // ---------------- event handlers --------------------
 
 $(document).on('keypress', 'input', function() {
   if (event.which === 13) {
-
+    var temp = Problem.checkAnswer();
+    gameLoop(temp);
   }
 });
 
 $(document).on('click', 'button', function() {
-  // console.log(timer.maxTime);
-  timer.addSecond();
-})
+  gameLoop(Problem.checkAnswer());
+});
 
-// ------------ Main Game Loop ------------------------
+// ------- initialize constructors --------------------
 
-// array [int, int], str -->
-var gameLoop = function(max, operator) {
-  var prob = generateProb(max);
-  var solution = probSolution(prob[0], prob[1], operator);
-  var inputVal = parseInt($('input').val());
+var Timer = new Countdown();
 
-  updateProblemText(prob, operator);
-
-  console.log(solution);
-}
-
-
-// var Timer = new Countdown(10000);
-
-// create new timer object
-// input.val()
-// mathProblem solution = ?
-
-// value === answer? next problem && plus 1000ms : try again
-
-// event listener for enter key
+var Problem = new MathProblem('+', 10);
 
 //  --------- trigger upon DOM loading ----------------
+
 $(document).ready(function() {
-  // resetGame();
-  timer.toggleOn();
-  var Problem = new MathProblem('+', 10);
-  Problem.printLog();
-
-  // console.log(newProblem());
-
-  // updateProblemText(generateProb(10), '+');
-  // console.log(probSolution(10,5,'*'));
-  // gameLoop(10, '+');
+  Timer.toggleOn();
+  Problem.printProblem();
 });
