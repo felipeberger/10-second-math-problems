@@ -10,6 +10,7 @@ function Countdown() {
   var end;
   var running = false;
   var score = 0;
+  var highScore = 0;
   var interval;
 
   this.toggleOn = function() {
@@ -21,6 +22,7 @@ function Countdown() {
 
   this.reset = function() {
     clearInterval(interval);
+    this.printHighScore();
     maxTime = 10000;
     seconds = 0;
     milliseconds = 0;
@@ -30,18 +32,25 @@ function Countdown() {
     updateTimerText(10, 00);
   }
 
-  this.increaseScore = function() {
-    score += 1;
+  this.isRunning = function() {
+    return running;
   }
 
   this.printScore = function() {
     $('.score-display').html(score);
   }
 
+  this.printHighScore = function() {
+    highScore = score > highScore ? score : highScore;
+    $('.highscore-display').html(highScore);
+  }
+
   this.addSecond = function() {
-    maxTime += 1000;
-    this.increaseScore();
-    this.printScore();
+    if (running) {
+      maxTime += 1000;
+      score += 1;
+      this.printScore();
+    }
   }
 
   var timerLoop = function() {
@@ -60,8 +69,8 @@ function Countdown() {
         updateTimerText(seconds, milliseconds);
         timerLoop();
       } else {
+        running = false;
         updateTimerText(0, 0);
-        console.log('times up!');
         clearInterval(interval);
       }
     }, 10);
@@ -105,6 +114,7 @@ var probSolution = function(x, y, operator, response) {
   return correct;
 }
 
+// str --> int
 var getInput = function() {
   var temp = parseInt($('input').val());
   return temp;
@@ -162,7 +172,7 @@ var updateProblemText = function(arr, operator) {
 
 // bool --> null
 var gameLoop = function (answer) {
-  if (answer) {
+  if (answer && Timer.isRunning()) {
     Problem = new MathProblem('+', 10);
     Problem.printProblem();
     Timer.addSecond();
@@ -192,6 +202,8 @@ $(document).on('click', 'button[name="start"]', function() {
 // Resets game
 $(document).on('click', 'button[name="new-game"]', function() {
   Timer.reset();
+  Problem = new MathProblem('+', 10);
+  Problem.printProblem();
 });
 
 // ------- initialize constructors --------------------
