@@ -36,7 +36,7 @@
       <div class="row">
         <div class="col-12 pt-3 text-center">
           <p class="math-problem"><span class="x-side"></span> <span class="operator" ></span> <span class="y-side"></span></p>
-          <input type="number" name="answer" value="" placeholder="Press &#8629 to submit">
+          <input class="rounded" type="number" name="answer" value="" placeholder="Type to start and &#8629 / &#8679 to submit">
           <div class="mt-3">
             <button class="btn btn-info btn-lg" type="button" name="new-game">New Game</button>
             <button class="btn btn-info btn-lg" type="button" name="start">Start</button>
@@ -44,34 +44,34 @@
         </div>
       </div>
       <div class="row py-3 mt-5 score rounded">
-        <div class="col-4 py-2 align-middle">
-          <h4>Score: <span class="score-display"></span></h4>
+        <div class="col-sm-12 col-md-4 py-2 align-md-middle text-sm-center text-md-left">
+          <h4 class="d-sm-inline">Score: <span class="score-display"></span></h4>
           <h4>High Score: <span class="highscore-display">0</span></h4>
         </div>
-        <div class="col 4">
+        <div class="col-sm-12 col-md-4 pt-sm-2 pt-md-0 text-center choose">
           <h4>Difficulty: </h4>
-          <div class="length btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-info active mx-1 rounded">
-              <input type="radio" name="options" id="short" autocomplete="off" checked> Single Digits
+          <div class="length btn-group btn-group-toggle " data-toggle="buttons">
+            <label class="btn btn-info btn-lg mx-1 rounded diff active">
+              <input type="radio" name="difficulty" id="short" autocomplete="off" checked> 1 + 1
             </label>
-            <label class="btn btn-info mx-1 rounded">
-              <input type="radio" name="options" id="long" autocomplete="off"> Double Digits
+            <label class="btn btn-info btn-lg mx-1 rounded diff">
+              <input type="radio" name="difficulty" id="long" autocomplete="off"> 10 + 10
             </label>
           </div>
         </div>
-        <div class="col-4 pl-md-4">
+        <div class="col-sm-12 col-md-4 pt-sm-2 pt-md-0 pl-md-4 text-center choose">
           <h4>Operators: </h4>
           <div class="operators btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-info active mx-1 rounded">
+            <label class="btn btn-info btn-lg active mx-1 rounded">
               <input type="radio" name="options" id="addition" autocomplete="off" checked> +
             </label>
-            <label class="btn btn-info mx-1 rounded">
+            <label class="btn btn-info btn-lg mx-1 rounded">
               <input type="radio" name="options" id="substraction" autocomplete="off"> -
             </label>
-            <label class="btn btn-info mx-1 rounded">
+            <label class="btn btn-info btn-lg mx-1 rounded">
               <input type="radio" name="options" id="multiplication" autocomplete="off"> *
             </label>
-            <label class="btn btn-info mx-1 rounded">
+            <label class="btn btn-info btn-lg mx-1 rounded">
               <input type="radio" name="options" id="division" autocomplete="off"> /
             </label>
           </div>

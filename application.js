@@ -30,6 +30,7 @@ function Countdown() {
     score = 0;
     this.printScore();
     updateTimerText(10, 00);
+    setProgressBar();
   }
 
   this.isRunning = function() {
@@ -53,6 +54,11 @@ function Countdown() {
     }
   }
 
+  var setProgressBar = function() {
+    var percentComplete = ((maxTime / 10000) * 100).toString() + '%';
+    $('#background-color').css('width', percentComplete)
+  }
+
   var timerLoop = function() {
     if (running = true) {
       end = new Date(maxTime);
@@ -60,6 +66,8 @@ function Countdown() {
       seconds = Math.floor((end-start) / 1000);
       milliseconds = Math.floor(((end-start) % 1000) / 10);
       maxTime -= 10;
+
+      setProgressBar();
     }
   }
 
@@ -93,6 +101,7 @@ var generateProb = function(max) {
 var probSolution = function(x, y, operator, response) {
   var solution;
   var correct;
+  var operator = operator.toString();
 
   switch (operator) {
     case '+':
@@ -110,7 +119,6 @@ var probSolution = function(x, y, operator, response) {
   }
 
   correct = solution === response;
-
   return correct;
 }
 
@@ -120,12 +128,57 @@ var getInput = function() {
   return temp;
 }
 
+// null --> str
+var getDifficulty = function() {
+  if ($('#long').closest('label').hasClass('active')) {
+    return 'long';
+  } else {
+    return 'short';
+  }
+}
+
+var getOperator = function() {
+  var tempArr = [];
+
+  if ($('#addition').closest('label').hasClass('active')) {
+    tempArr.push('+');
+  }
+
+  if ($('#substraction').closest('label').hasClass('active')) {
+    tempArr.push('-');
+  }
+
+  if ($('#multiplication').closest('label').hasClass('active')) {
+    tempArr.push('*');
+  }
+
+  if ($('#division').closest('label').hasClass('active')) {
+    tempArr.push('/');
+  }
+
+  if (tempArr.length === 0 ) {
+    tempArr.push('+');
+  }
+
+  // return tempArr;
+  console.log(tempArr);
+  return _.sample(tempArr, 1);
+
+}
+
 // Math problem constructor
 // str, int
-function MathProblem(operator, max) {
-  var problem = generateProb(max);
-  var operator = operator;
+function MathProblem() {
+  var operator = getOperator();
+  var difficulty = getDifficulty();
+  var problem;
   var solution;
+
+  if (difficulty === 'long') {
+    problem = generateProb(100);
+  } else {
+    problem = generateProb(10);
+  }
 
   this.printProblem = function() {
     updateProblemText(problem, operator);
@@ -185,8 +238,11 @@ var gameLoop = function (answer) {
 // ---------------- event handlers --------------------
 
 // submits answer if enter, otherwise starts the game
-$(document).on('keypress', 'input', function() {
+$(document).on('keydown', 'input', function() {
   if (event.which === 13) {
+    var temp = Problem.checkAnswer();
+    gameLoop(temp);
+  } else if (event.which === 16) {
     var temp = Problem.checkAnswer();
     gameLoop(temp);
   } else {
@@ -206,11 +262,26 @@ $(document).on('click', 'button[name="new-game"]', function() {
   Problem.printProblem();
 });
 
+// sets difficulty
+$(document).on('click', 'input[name="difficulty"]', function() {
+  $('#long').closest('label').toggleClass('active');
+  $('#short').closest('label').toggleClass('active');
+})
+
+// selects possible operators
+$(document).on('click', 'input[name="options"]', function() {
+  $(this).closest('label').toggleClass('active');
+
+  if (getOperator().length === 0) {
+    $('#addition').closest('label').addClass('active');
+  }
+})
+
 // ------- initialize constructors --------------------
 
 var Timer = new Countdown();
 
-var Problem = new MathProblem('+', 10);
+var Problem = new MathProblem();
 
 //  --------- trigger upon DOM loading ----------------
 

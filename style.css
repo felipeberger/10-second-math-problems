@@ -15,9 +15,10 @@ button {
 }
 
 /* -------------- input styling -------------- */
-input {
+input[name="answer"] {
   width: 305px;
   text-align: center;
+  font-size: 1.2em;
 }
 
 /* ----- remove arrows from input field ------ */
@@ -56,7 +57,26 @@ input[type=number] {
   height: 7px;
 }
 
-/* ------------- score styling ----------------- */
+/* ------- score and options styling ---------- */
 .score {
   background-color: #ada8a8;
+}
+
+.diff {
+  width: 110px;
+}
+
+label {
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .score {
+    text-align: center;
+  }
+
+  .choose {
+    padding-top: 10px;
+  }
+
 }
