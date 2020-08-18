@@ -160,10 +160,7 @@ var getOperator = function() {
     tempArr.push('+');
   }
 
-  // return tempArr;
-  console.log(tempArr);
   return _.sample(tempArr, 1);
-
 }
 
 // Math problem constructor
