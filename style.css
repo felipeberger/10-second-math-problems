@@ -1,8 +1,26 @@
+/* ----------- general styling --------------- */
 .container-fluid {
   max-width: 1000px;
 }
 
-/* remove arrows from input field */
+button {
+  width: 150px;
+  text-align: center;
+}
+
+.btn {
+  background-color: #52d5c7;
+  border: 1px solid #52d5c7;
+  font-weight: 500;
+}
+
+/* -------------- input styling -------------- */
+input {
+  width: 305px;
+  text-align: center;
+}
+
+/* ----- remove arrows from input field ------ */
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -14,4 +32,31 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+/* ---------- timer and progress bar styling ------ */
+.timer-display {
+  font-size: 7em;
+  color: #52d5c7;
+  font-weight: 500;
+}
+
+.math-problem {
+  font-size: 7em;
+  font-weight: 500;
+}
+
+#progress-bar {
+  background-color: #f54242;
+  height: 7px;
+}
+
+#background-color {
+  background-color: #52d5c7;
+  height: 7px;
+}
+
+/* ------------- score styling ----------------- */
+.score {
+  background-color: #ada8a8;
 }
