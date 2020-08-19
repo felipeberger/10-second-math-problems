@@ -156,10 +156,6 @@ var getOperator = function() {
     tempArr.push('/');
   }
 
-  if (tempArr.length === 0 ) {
-    tempArr.push('+');
-  }
-
   return _.sample(tempArr, 1);
 }
 
@@ -268,8 +264,10 @@ $(document).on('click', 'input[name="difficulty"]', function() {
 // selects possible operators
 $(document).on('click', 'input[name="options"]', function() {
   $(this).closest('label').toggleClass('active');
+  var temp = getOperator().length;
+  console.log(temp);
 
-  if (getOperator().length === 0) {
+  if (temp === 0) {
     $('#addition').closest('label').addClass('active');
   }
 })
@@ -284,6 +282,7 @@ var Problem = new MathProblem();
 
 $(document).ready(function() {
   Timer.printScore();
+  Problem = new MathProblem();
   Problem.printProblem();
   updateTimerText(10, 00);
 });
