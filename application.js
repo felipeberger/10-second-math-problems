@@ -114,7 +114,7 @@ var probSolution = function(x, y, operator, response) {
       solution = x * y;
       break;
     case '/':
-      solution = x / y;
+      solution = y
       break;
   }
 
@@ -167,14 +167,21 @@ function MathProblem() {
   var problem;
   var solution;
 
+
   if (difficulty === 'long') {
-    problem = generateProb(100);
+    problem = generateProb(51);
   } else {
     problem = generateProb(10);
   }
 
   this.printProblem = function() {
-    updateProblemText(problem, operator);
+    if (operator == '/') {
+      let x = problem[0] * problem[1];
+      let y = problem[0];
+      updateProblemText([x, y], operator);
+    } else {
+      updateProblemText(problem, operator);
+    }
   }
 
   // null --> bool
@@ -265,7 +272,6 @@ $(document).on('click', 'input[name="difficulty"]', function() {
 $(document).on('click', 'input[name="options"]', function() {
   $(this).closest('label').toggleClass('active');
   var temp = getOperator().length;
-  console.log(temp);
 
   if (temp === 0) {
     $('#addition').closest('label').addClass('active');

@@ -18,7 +18,23 @@ button {
 input[name="answer"] {
   width: 305px;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 2em;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+  font-size: 60%;
+}
+
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  font-size: 60%;
+}
+
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  font-size: 60%;
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+  font-size: 60%;
 }
 
 /* ----- remove arrows from input field ------ */
